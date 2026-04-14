@@ -3,257 +3,661 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oduwole Olamide Oluwole | Product Developer</title>
+    <title>Oduwole Olamide Oluwole | Product Developer & UI/UX Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS VARIABLES - OCEAN THEME */
         :root {
-            --abyss: #070B19;
-            --deep-water: #021B38;
-            --cyan-glow: #00F0FF;
-            --glass-bg: rgba(0, 240, 255, 0.03);
-            --glass-border: rgba(0, 240, 255, 0.15);
-            --text-main: #FFFFFF;
-            --text-muted: #8892A4;
+            --abyss:       #060A16;
+            --deep:        #0A1229;
+            --mid:         #0E1A38;
+            --cyan:        #00EFFF;
+            --cyan-dim:    rgba(0,239,255,0.12);
+            --cyan-border: rgba(0,239,255,0.18);
+            --rose:        #FF3A7A;
+            --text:        #E8EDF5;
+            --muted:       #7A8599;
+            --glass:       rgba(255,255,255,0.03);
+            --glass-hover: rgba(255,255,255,0.055);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-        /* BREATHING OCEAN BACKGROUND */
+        html { scroll-behavior: smooth; }
+
         body {
-            background: linear-gradient(-45deg, var(--abyss), var(--deep-water), #042959, var(--abyss));
-            background-size: 400% 400%;
-            animation: oceanBreathe 15s ease infinite;
-            color: var(--text-main);
-            line-height: 1.6;
+            background-color: var(--abyss);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
             overflow-x: hidden;
         }
 
-        @keyframes oceanBreathe {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* ─── ANIMATED BACKGROUND ─────────────────────────────── */
+        .bg-canvas {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background:
+                radial-gradient(ellipse 60% 50% at 10% 20%, rgba(0,80,160,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 90% 80%, rgba(0,160,180,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 40% at 50% 50%, rgba(0,30,80,0.4) 0%, transparent 80%);
+            animation: bgShift 20s ease-in-out infinite alternate;
         }
 
-        /* MAIN CONTAINER */
+        @keyframes bgShift {
+            0%   { opacity: 0.7; transform: scale(1); }
+            100% { opacity: 1;   transform: scale(1.04); }
+        }
+
+        /* Scan line texture */
+        body::after {
+            content: '';
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.03) 2px,
+                rgba(0,0,0,0.03) 4px
+            );
+        }
+
+        /* ─── LAYOUT ──────────────────────────────────────────── */
         .container {
-            max-width: 1000px;
+            position: relative; z-index: 1;
+            max-width: 1020px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 28px 100px;
         }
 
-        /* GLASSMORPHISM CARDS */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
+        /* ─── NAV BAR ─────────────────────────────────────────── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 40px;
+            background: rgba(6,10,22,0.75);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--cyan-border);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600; font-size: 1.1rem;
+            color: var(--cyan); letter-spacing: 1px;
+        }
+
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a {
+            font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--muted); text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--cyan); }
+
+        /* ─── GLASS PANEL ─────────────────────────────────────── */
+        .panel {
+            background: var(--glass);
+            border: 1px solid var(--cyan-border);
             border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: transform 0.4s ease, border-color 0.4s ease;
+            padding: 44px;
+            margin-bottom: 32px;
+            backdrop-filter: blur(12px);
+            box-shadow:
+                0 4px 40px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.06);
+            transition: background 0.4s, border-color 0.4s, transform 0.4s;
         }
 
-        .glass-panel:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 240, 255, 0.4);
+        .panel:hover {
+            background: var(--glass-hover);
+            border-color: rgba(0,239,255,0.35);
+            transform: translateY(-3px);
         }
 
-        /* TYPOGRAPHY */
-        h1 { font-size: 3rem; margin-bottom: 10px; letter-spacing: -1px; }
-        h2 { font-size: 1.8rem; color: var(--cyan-glow); margin-bottom: 20px; font-weight: 500; }
-        h3 { font-size: 1.4rem; margin-bottom: 5px; }
-        p { color: var(--text-muted); margin-bottom: 15px; font-size: 1.1rem; }
-        
-        .contact-info { color: var(--cyan-glow); font-size: 1rem; margin-bottom: 30px; }
-
-        /* HERO SECTION */
+        /* ─── HERO ────────────────────────────────────────────── */
         .hero {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
-        .profile-img {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--cyan-glow);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
-        }
-
-        /* SKILLS BADGES */
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .skill-badge {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            color: var(--cyan-glow);
-        }
-
-        /* SHOWCASE GRID (App Screenshots) */
-        .showcase-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .showcase-grid img {
-            width: 100%;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-        .showcase-grid img:hover {
-            transform: scale(1.05);
-            border-color: var(--cyan-glow);
+            grid-template-columns: 1fr auto;
+            gap: 40px;
+            align-items: start;
+            padding-top: 100px;
         }
 
-        /* VIDEO CONTAINER */
-        .video-container {
-            width: 100%;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--cyan-glow);
-            margin-bottom: 30px;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.15);
+        .hero-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
         }
-        video {
-            width: 100%;
+
+        .hero-name em {
+            font-style: normal;
+            color: var(--cyan);
+            text-shadow: 0 0 40px rgba(0,239,255,0.4);
+        }
+
+        .hero-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 22px;
+            opacity: 0.85;
+        }
+
+        .hero-contact {
+            display: flex; flex-wrap: wrap; gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .contact-chip {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 6px 14px;
+            border: 1px solid var(--cyan-border);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            transition: all 0.3s;
+            background: var(--cyan-dim);
+        }
+
+        .contact-chip:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+            background: rgba(0,239,255,0.08);
+        }
+
+        .contact-chip .icon { font-size: 0.9rem; }
+
+        .hero-summary {
+            font-size: 1rem;
+            color: var(--muted);
+            max-width: 580px;
+            line-height: 1.75;
+        }
+
+        /* ─── PASSPORT PHOTO ──────────────────────────────────── */
+        .passport-frame {
+            width: 130px;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .passport-photo {
+            width: 130px; height: 160px;
+            object-fit: cover; object-position: top center;
+            border: 2px solid var(--cyan);
+            border-radius: 4px;
             display: block;
+            box-shadow: 0 0 30px rgba(0,239,255,0.25), 0 8px 24px rgba(0,0,0,0.6);
         }
 
-        /* SCROLL ANIMATION CLASSES */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        .passport-label {
+            text-align: center;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 8px;
         }
-        .fade-in-up.visible {
+
+        /* ─── SECTION HEADER ──────────────────────────────────── */
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.65rem;
+            font-weight: 300;
+            color: var(--text);
+            margin-bottom: 28px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--cyan-border);
+            display: flex; align-items: center; gap: 14px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px; height: 22px;
+            background: var(--cyan);
+            border-radius: 2px;
+            box-shadow: 0 0 12px var(--cyan);
+        }
+
+        /* ─── VIDEO ───────────────────────────────────────────── */
+        .video-wrap {
+            border-radius: 14px; overflow: hidden;
+            border: 1px solid var(--cyan-border);
+            box-shadow: 0 0 60px rgba(0,239,255,0.1);
+            margin-bottom: 28px;
+        }
+
+        video { width: 100%; display: block; }
+
+        /* ─── SCREENSHOT GRID ─────────────────────────────────── */
+        .shots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .shots-grid img {
+            width: 100%; border-radius: 10px;
+            border: 1px solid var(--cyan-border);
+            transition: transform 0.35s ease, border-color 0.35s, box-shadow 0.35s;
+            cursor: pointer;
+            aspect-ratio: 9/16;
+            object-fit: cover;
+        }
+
+        .shots-grid img:hover {
+            transform: scale(1.06) translateY(-4px);
+            border-color: var(--cyan);
+            box-shadow: 0 12px 32px rgba(0,239,255,0.2);
+        }
+
+        /* ─── EXPERIENCE ENTRIES ──────────────────────────────── */
+        .exp-entry { margin-bottom: 36px; }
+        .exp-entry:last-child { margin-bottom: 0; }
+
+        .exp-header {
+            display: flex; justify-content: space-between;
+            align-items: flex-start; flex-wrap: wrap; gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .exp-role {
+            font-weight: 600; font-size: 1rem;
+            color: var(--text);
+        }
+
+        .exp-company {
+            color: var(--cyan);
+            font-size: 0.88rem;
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        .exp-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--muted);
+            letter-spacing: 1px;
+            white-space: nowrap;
+            padding-top: 3px;
+        }
+
+        .exp-bullets {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .exp-bullets li {
+            font-size: 0.92rem;
+            color: var(--muted);
+            padding: 4px 0 4px 20px;
+            position: relative;
+        }
+
+        .exp-bullets li::before {
+            content: '›';
+            position: absolute; left: 0;
+            color: var(--cyan);
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        /* ─── SKILLS GRID ─────────────────────────────────────── */
+        .skills-clusters { display: flex; flex-direction: column; gap: 20px; }
+
+        .skill-cluster-label {
+            font-size: 0.72rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 10px;
+            opacity: 0.75;
+        }
+
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+        .tag {
+            padding: 6px 16px;
+            border: 1px solid var(--cyan-border);
+            border-radius: 30px;
+            font-size: 0.82rem;
+            color: var(--text);
+            background: var(--cyan-dim);
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(0,239,255,0.1);
+        }
+
+        /* ─── EDUCATION ───────────────────────────────────────── */
+        .edu-entry { margin-bottom: 28px; }
+        .edu-entry:last-child { margin-bottom: 0; }
+
+        .edu-degree { font-weight: 600; font-size: 1rem; color: var(--text); }
+        .edu-school { color: var(--cyan); font-size: 0.88rem; margin: 2px 0 6px; }
+        .edu-year { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+        .edu-note { font-size: 0.88rem; color: var(--muted); margin-top: 6px; }
+
+        /* ─── INTERESTS ───────────────────────────────────────── */
+        .interests { display: flex; flex-wrap: wrap; gap: 10px; }
+
+        /* ─── FOOTER ──────────────────────────────────────────── */
+        .site-footer {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 0.78rem;
+            color: var(--muted);
+            letter-spacing: 1.5px;
+        }
+
+        .site-footer a { color: var(--cyan); text-decoration: none; }
+
+        /* ─── FADE IN ANIMATIONS ──────────────────────────────── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.75s ease, transform 0.75s ease;
+        }
+
+        .fade-up.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        @media (max-width: 768px) {
-            .hero { flex-direction: column; text-align: center; }
-            h1 { font-size: 2.2rem; }
+        /* ─── RESPONSIVE ──────────────────────────────────────── */
+        @media (max-width: 700px) {
+            nav { padding: 16px 20px; }
+            .nav-links { gap: 18px; }
+            .hero { grid-template-columns: 1fr; }
+            .passport-frame { display: flex; align-items: center; gap: 16px; }
+            .passport-photo { width: 90px; height: 110px; }
+            .panel { padding: 28px 22px; }
+            .exp-header { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <header class="glass-panel hero fade-in-up">
-            <a href="Me.jpg" target="_blank">
-                <img src="Me.jpg" alt="Oduwole Olamide Oluwole" class="profile-img">
-            </a>
+<div class="bg-canvas"></div>
+
+<!-- ─── NAV ─────────────────────────────────────────────────────── -->
+<nav>
+    <div class="nav-logo">O. O. Oluwole</div>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#education">Education</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+
+    <!-- ─── HERO ──────────────────────────────────────────────────── -->
+    <header class="panel hero fade-up" id="about">
+        <div>
+            <p class="hero-title">Product Developer &amp; UI/UX Engineer</p>
+            <h1 class="hero-name">Oduwole<br><em>Olamide</em> Oluwole</h1>
+            <div class="hero-contact">
+                <a class="contact-chip" href="mailto:Oduwolevictor354@outlook.com">
+                    <span class="icon">✉</span> Oduwolevictor354@outlook.com
+                </a>
+                <a class="contact-chip" href="tel:+2348143340477">
+                    <span class="icon">✆</span> +234 814 334 0477
+                </a>
+                <a class="contact-chip" href="#">
+                    <span class="icon">📍</span> Lagos, Nigeria
+                </a>
+                <a class="contact-chip" href="https://mightynig.github.io/portfolio/" target="_blank">
+                    <span class="icon">⬡</span> mightynig.github.io/portfolio
+                </a>
+            </div>
+            <p class="hero-summary">
+                Resourceful computer engineer and product developer bridging hardware technical expertise
+                with modern UI/UX design. Strong foundation in IT infrastructure, networking, and device
+                repair — transitioned into architecting immersive, user-centric mobile applications with
+                a sharp eye for visual storytelling, illustration, and color theory.
+            </p>
+        </div>
+
+        <!-- Passport photo top-right -->
+        <div class="passport-frame">
+            <img src="Me.jpg" alt="Oduwole Olamide Oluwole" class="passport-photo">
+            <p class="passport-label">Lagos · Nigeria</p>
+        </div>
+    </header>
+
+    <!-- ─── FEATURED PRODUCT ───────────────────────────────────────── -->
+    <section class="panel fade-up" id="work">
+        <h2 class="section-title">Featured Product — Pal-Lock</h2>
+        <div style="margin-bottom:20px;">
+            <div class="exp-header">
+                <div>
+                    <p class="exp-role">Product Developer &amp; UI/UX Engineer</p>
+                    <p class="exp-company">Klata Labs</p>
+                </div>
+                <span class="exp-date">2026 — Present</span>
+            </div>
+            <ul class="exp-bullets">
+                <li>Engineering an AI-powered discovery engine enabling users to find trusted services and products through an intuitive, Pinterest-inspired search experience.</li>
+                <li>Developing a comprehensive mobile ecosystem focused on secure communication, personal inventory management, and community-based commerce ("The Dock").</li>
+                <li>Designing minimalist interfaces with custom 3D-styled navigation tabs, glassmorphism overlays, and a trust-layer matching algorithm.</li>
+            </ul>
+        </div>
+        <div class="video-wrap">
+            <video autoplay loop muted playsinline>
+                <source src="Pall-Luck.MP4" type="video/mp4">
+            </video>
+        </div>
+        <p style="font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">Interface Gallery</p>
+        <div class="shots-grid">
+            <img src="1.jpg"  alt="Pal-Lock Screen 1">
+            <img src="2.jpg"  alt="Pal-Lock Screen 2">
+            <img src="3.jpg"  alt="Pal-Lock Screen 3">
+            <img src="4.jpg"  alt="Pal-Lock Screen 4">
+            <img src="5.jpg"  alt="Pal-Lock Screen 5">
+            <img src="6.jpg"  alt="Pal-Lock Screen 6">
+            <img src="7.jpg"  alt="Pal-Lock Screen 7">
+            <img src="8.jpg"  alt="Pal-Lock Screen 8">
+            <img src="9.jpg"  alt="Pal-Lock Screen 9">
+            <img src="10.jpg" alt="Pal-Lock Screen 10">
+        </div>
+    </section>
+
+    <!-- ─── EXPERIENCE ─────────────────────────────────────────────── -->
+    <section class="panel fade-up">
+        <h2 class="section-title">Professional Experience</h2>
+
+        <div class="exp-entry">
+            <div class="exp-header">
+                <div>
+                    <p class="exp-role">Personal Assistant</p>
+                    <p class="exp-company">Elite Movers Car Service</p>
+                </div>
+                <span class="exp-date">Prior Experience</span>
+            </div>
+            <ul class="exp-bullets">
+                <li>Provided direct administrative and operational support to the sole owner of a prominent car rental service.</li>
+                <li>Managed daily communications, scheduling, and organizational workflows to ensure smooth business operations.</li>
+            </ul>
+        </div>
+
+        <div class="exp-entry">
+            <div class="exp-header">
+                <div>
+                    <p class="exp-role">IT &amp; Hardware Technician</p>
+                    <p class="exp-company">Local Computer Centre &amp; Polytechnic IT (SIWES/IT Placement)</p>
+                </div>
+                <span class="exp-date">Industrial Training</span>
+            </div>
+            <ul class="exp-bullets">
+                <li>Diagnosed and repaired technical issues across computer systems, networks, and DGU units.</li>
+                <li>Specialized in enterprise printer maintenance — dismantling, reassembling, and resetting hardware.</li>
+                <li>Configured and optimized local network connections to maintain stable IT operations.</li>
+            </ul>
+        </div>
+
+        <div class="exp-entry">
+            <div class="exp-header">
+                <div>
+                    <p class="exp-role">Mobile &amp; Computer Repair Technician</p>
+                    <p class="exp-company">Independent Repair Shop</p>
+                </div>
+                <span class="exp-date">2 Years</span>
+            </div>
+            <ul class="exp-bullets">
+                <li>Delivered expert-level software and hardware repair services for mobile phones and laptops.</li>
+                <li>Executed complex device flashing, OS resets, and deep hardware troubleshooting for escalated cases.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ─── KEY PROJECTS ───────────────────────────────────────────── -->
+    <section class="panel fade-up">
+        <h2 class="section-title">Key Projects</h2>
+        <div class="exp-entry">
+            <div class="exp-header">
+                <div>
+                    <p class="exp-role">IoT Water Quality Monitoring System</p>
+                    <p class="exp-company">Academic Project — Olabisi Onabanjo University</p>
+                </div>
+                <span class="exp-date">2023</span>
+            </div>
+            <ul class="exp-bullets">
+                <li>Designed and built a cost-effective, portable IoT monitoring system using an ESP32 microcontroller.</li>
+                <li>Integrated sensors to measure real-time environmental parameters: pH, temperature, and turbidity.</li>
+                <li>Programmed data transmission to a local LCD display and remotely to a ThingSpeak server for continuous monitoring.</li>
+            </ul>
+        </div>
+        <div class="exp-entry" style="margin-bottom:0">
+            <div class="exp-header">
+                <div>
+                    <p class="exp-role">Campus-Wide Telecom Network Deployment</p>
+                    <p class="exp-company">Abraham Adesanya Polytechnic — OND Final Project</p>
+                </div>
+                <span class="exp-date">2018</span>
+            </div>
+            <ul class="exp-bullets">
+                <li>Architected and deployed a campus-wide telecom network utilizing RJ45 cables and satellite boxes to connect all academic departments.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ─── SKILLS ──────────────────────────────────────────────────── -->
+    <section class="panel fade-up" id="skills">
+        <h2 class="section-title">Technical &amp; Creative Skills</h2>
+        <div class="skills-clusters">
             <div>
-                <h1>Oduwole Olamide Oluwole</h1>
-                <p class="contact-info">Lagos, Nigeria | Oduwolevictor354@outlook.com | +234 814 334 0477</p>
-                <p style="color: var(--text-main);">Resourceful computer engineer and product developer bridging hardware technical expertise with modern UI/UX design to architect immersive, user-centric mobile applications.</p>
-            </div>
-        </header>
-
-        <section class="glass-panel fade-in-up">
-            <h2>Featured Product: Pal-Lock</h2>
-            <h3>Product Developer & UI/UX Engineer @ Klata Labs</h3>
-            <p>Engineering an AI-powered discovery engine enabling users to find trusted services through an intuitive, modern interface.</p>
-            
-            <div class="video-container">
-                <video autoplay loop muted playsinline>
-                    <source src="Pall-Luck.MP4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-
-            <p style="color: var(--text-main); margin-bottom: 10px;">Dashboard Interface Gallery:</p>
-            <div class="showcase-grid">
-                <img src="1.jpg" alt="App Screen 1">
-                <img src="2.jpg" alt="App Screen 2">
-                <img src="3.jpg" alt="App Screen 3">
-                <img src="4.jpg" alt="App Screen 4">
-                <img src="5.jpg" alt="App Screen 5">
-                <img src="6.jpg" alt="App Screen 6">
-                <img src="7.jpg" alt="App Screen 7">
-                <img src="8.jpg" alt="App Screen 8">
-                <img src="9.jpg" alt="App Screen 9">
-                <img src="10.jpg" alt="App Screen 10">
-            </div>
-        </section>
-
-        <section class="glass-panel fade-in-up">
-            <h2>Technical Core</h2>
-            <div class="skills-grid">
-                <div class="skill-badge">UI/UX Design</div>
-                <div class="skill-badge">Front-End Development</div>
-                <div class="skill-badge">Mobile App Prototyping</div>
-                <div class="skill-badge">Hardware/Software Repair</div>
-                <div class="skill-badge">IT Infrastructure</div>
-                <div class="skill-badge">Network Engineering</div>
-                <div class="skill-badge">Professional Photography</div>
-                <div class="skill-badge">Digital Avatar Animation</div>
-                <div class="skill-badge">IoT Systems (ESP32)</div>
-            </div>
-        </section>
-
-        <section class="glass-panel fade-in-up">
-            <h2>Experience & Engineering</h2>
-            
-            <div style="margin-bottom: 30px;">
-                <h3>IoT Water Quality Monitoring System</h3>
-                <p style="color: var(--cyan-glow); font-size: 0.9rem; margin-bottom: 5px;">Academic Project</p>
-                <p>Designed and built a cost-effective, portable IoT water quality monitoring system utilizing an ESP32 microcontroller. Programmed the system to transmit real-time data to a local LCD and remotely to a ThingSpeak server.</p>
-            </div>
-
-            <div>
-                <h3>Mobile Device & IT Support Technician</h3>
-                <p style="color: var(--cyan-glow); font-size: 0.9rem; margin-bottom: 5px;">Hardware Engineering</p>
-                <p>Delivered expert-level software and hardware repair services. Executed complex device flashing, OS resets, and deep hardware troubleshooting for issues escalated by other technicians.</p>
-            </div>
-        </section>
-
-        <section class="glass-panel fade-in-up">
-            <h2>Education</h2>
-            <div style="margin-bottom: 20px;">
-                <h3>Olabisi Onabanjo University</h3>
-                <p>B.Eng in Computer Engineering (2019 – 2023)</p>
+                <p class="skill-cluster-label">Software &amp; Product Development</p>
+                <div class="skill-tags">
+                    <span class="tag">UI/UX Design</span>
+                    <span class="tag">Front-End Development</span>
+                    <span class="tag">Mobile App Prototyping</span>
+                    <span class="tag">React Native</span>
+                    <span class="tag">Technical Problem-Solving</span>
+                </div>
             </div>
             <div>
-                <h3>Abraham Adesanya Polytechnic</h3>
-                <p>OND in Computer Engineering | Upper Credit (2015 – 2018)</p>
-                <p style="font-size: 0.95rem; margin-top: 5px;">Key Project: Architected and deployed a campus-wide telecom network utilizing RJ45 cables and satellite boxes.</p>
+                <p class="skill-cluster-label">Hardware &amp; IT Infrastructure</p>
+                <div class="skill-tags">
+                    <span class="tag">Computer &amp; Mobile Repair</span>
+                    <span class="tag">Printer Maintenance</span>
+                    <span class="tag">DGU Systems</span>
+                    <span class="tag">IT Troubleshooting</span>
+                    <span class="tag">IoT (ESP32)</span>
+                </div>
             </div>
-        </section>
+            <div>
+                <p class="skill-cluster-label">Networking</p>
+                <div class="skill-tags">
+                    <span class="tag">Campus Network Routing</span>
+                    <span class="tag">RJ45 / Satellite Box Integration</span>
+                    <span class="tag">Network Configuration</span>
+                </div>
+            </div>
+            <div>
+                <p class="skill-cluster-label">Creative &amp; Multimedia</p>
+                <div class="skill-tags">
+                    <span class="tag">Professional Photography</span>
+                    <span class="tag">Realistic Pencil Illustration</span>
+                    <span class="tag">Digital Avatar Animation</span>
+                    <span class="tag">Infographic Design</span>
+                    <span class="tag">Color Theory</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    </div>
+    <!-- ─── EDUCATION ──────────────────────────────────────────────── -->
+    <section class="panel fade-up" id="education">
+        <h2 class="section-title">Education &amp; Certifications</h2>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
+        <div class="edu-entry">
+            <p class="edu-degree">B.Eng in Computer Engineering</p>
+            <p class="edu-school">Olabisi Onabanjo University — Ago-Iwoye, Nigeria</p>
+            <p class="edu-year">2019 – 2023</p>
+        </div>
 
-            document.querySelectorAll('.fade-in-up').forEach((el) => {
-                observer.observe(el);
-            });
+        <div class="edu-entry">
+            <p class="edu-degree">OND in Computer Engineering</p>
+            <p class="edu-school">Abraham Adesanya Polytechnic — Ijebu Igbo, Nigeria</p>
+            <p class="edu-year">2015 – 2018 &nbsp;·&nbsp; <span style="color:var(--cyan)">Upper Credit</span></p>
+            <p class="edu-note">Final Project: Campus-wide telecom network deployment across all academic departments.</p>
+        </div>
+
+        <div class="edu-entry" style="margin-bottom:0">
+            <p class="edu-degree">National Youth Service Corps (NYSC)</p>
+            <p class="edu-school">Federal Government of Nigeria</p>
+            <p class="edu-year">Certificate of National Service</p>
+        </div>
+    </section>
+
+    <!-- ─── INTERESTS ──────────────────────────────────────────────── -->
+    <section class="panel fade-up">
+        <h2 class="section-title">Interests &amp; Hobbies</h2>
+        <div class="interests">
+            <span class="tag">♟ Chess</span>
+            <span class="tag">🧩 Puzzles</span>
+            <span class="tag">✏ Realistic Drawing</span>
+            <span class="tag">🎨 Digital Avatars</span>
+            <span class="tag">🎵 Music</span>
+            <span class="tag">🚗 Driving</span>
+        </div>
+    </section>
+
+    <footer class="site-footer fade-up">
+        <p>Oduwole Olamide Oluwole &nbsp;·&nbsp; Lagos, Nigeria &nbsp;·&nbsp; 
+           <a href="https://mightynig.github.io/portfolio/" target="_blank">mightynig.github.io/portfolio</a>
+        </p>
+        <p style="margin-top:8px; font-size:0.7rem; opacity:0.4;">© 2026 — All rights reserved</p>
+    </footer>
+
+</div>
+
+<script>
+    // Scroll-triggered fade animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, 60 * i);
+            }
         });
-    </script>
+    }, { threshold: 0.07 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
