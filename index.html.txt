@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oduwole Olamide Oluwole | Product Developer</title>
+    <style>
+        /* CSS VARIABLES - OCEAN THEME */
+        :root {
+            --abyss: #070B19;
+            --deep-water: #021B38;
+            --cyan-glow: #00F0FF;
+            --glass-bg: rgba(0, 240, 255, 0.03);
+            --glass-border: rgba(0, 240, 255, 0.15);
+            --text-main: #FFFFFF;
+            --text-muted: #8892A4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* BREATHING OCEAN BACKGROUND */
+        body {
+            background: linear-gradient(-45deg, var(--abyss), var(--deep-water), #042959, var(--abyss));
+            background-size: 400% 400%;
+            animation: oceanBreathe 15s ease infinite;
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        @keyframes oceanBreathe {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* GLASSMORPHISM CARDS */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 240, 255, 0.4);
+        }
+
+        /* TYPOGRAPHY */
+        h1 { font-size: 3rem; margin-bottom: 10px; letter-spacing: -1px; }
+        h2 { font-size: 1.8rem; color: var(--cyan-glow); margin-bottom: 20px; font-weight: 500; }
+        h3 { font-size: 1.4rem; margin-bottom: 5px; }
+        p { color: var(--text-muted); margin-bottom: 15px; font-size: 1.1rem; }
+        
+        .contact-info { color: var(--cyan-glow); font-size: 1rem; margin-bottom: 30px; }
+
+        /* HERO SECTION */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--cyan-glow);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+        }
+
+        /* SKILLS BADGES */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .skill-badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: var(--cyan-glow);
+        }
+
+        /* SHOWCASE GRID (App Screenshots) */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .showcase-grid img {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .showcase-grid img:hover {
+            transform: scale(1.05);
+            border-color: var(--cyan-glow);
+        }
+
+        /* VIDEO CONTAINER */
+        .video-container {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--cyan-glow);
+            margin-bottom: 30px;
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.15);
+        }
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        /* SCROLL ANIMATION CLASSES */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .hero { flex-direction: column; text-align: center; }
+            h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="glass-panel hero fade-in-up">
+            <img src="Me.jpg" alt="Oduwole Olamide Oluwole" class="profile-img">
+            <div>
+                <h1>Oduwole Olamide Oluwole</h1>
+                <p class="contact-info">Lagos, Nigeria | Oduwolevictor354@outlook.com | +234 814 334 0477</p>
+                <p style="color: var(--text-main);">Resourceful computer engineer and product developer bridging hardware technical expertise with modern UI/UX design to architect immersive, user-centric mobile applications.</p>
+            </div>
+        </header>
+
+        <section class="glass-panel fade-in-up">
+            <h2>Featured Product: Pal-Lock</h2>
+            <h3>Product Developer & UI/UX Engineer @ Klata Labs</h3>
+            <p>Engineering an AI-powered discovery engine enabling users to find trusted services through an intuitive, modern interface.</p>
+            
+            <div class="video-container">
+                <video autoplay loop muted playsinline>
+                    <source src="Pall-Luck.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <p style="color: var(--text-main); margin-bottom: 10px;">Dashboard Interface Gallery:</p>
+            <div class="showcase-grid">
+                <img src="1.png" alt="App Screen 1">
+                <img src="2.png" alt="App Screen 2">
+                <img src="3.png" alt="App Screen 3">
+                <img src="4.png" alt="App Screen 4">
+                <img src="5.png" alt="App Screen 5">
+                <img src="6.png" alt="App Screen 6">
+                <img src="7.png" alt="App Screen 7">
+                <img src="8.png" alt="App Screen 8">
+                <img src="9.png" alt="App Screen 9">
+                <img src="10.png" alt="App Screen 10">
+            </div>
+        </section>
+
+        <section class="glass-panel fade-in-up">
+            <h2>Technical Core</h2>
+            <div class="skills-grid">
+                <div class="skill-badge">UI/UX Design</div>
+                <div class="skill-badge">Front-End Development</div>
+                <div class="skill-badge">Mobile App Prototyping</div>
+                <div class="skill-badge">Hardware/Software Repair</div>
+                <div class="skill-badge">IT Infrastructure</div>
+                <div class="skill-badge">Network Engineering</div>
+                <div class="skill-badge">Professional Photography</div>
+                <div class="skill-badge">Digital Avatar Animation</div>
+                <div class="skill-badge">IoT Systems (ESP32)</div>
+            </div>
+        </section>
+
+        <section class="glass-panel fade-in-up">
+            <h2>Experience & Engineering</h2>
+            
+            <div style="margin-bottom: 30px;">
+                <h3>IoT Water Quality Monitoring System</h3>
+                <p style="color: var(--cyan-glow); font-size: 0.9rem; margin-bottom: 5px;">Academic Project</p>
+                <p>Designed and built a cost-effective, portable IoT water quality monitoring system utilizing an ESP32 microcontroller. Programmed the system to transmit real-time data to a local LCD and remotely to a ThingSpeak server.</p>
+            </div>
+
+            <div>
+                <h3>Mobile Device & IT Support Technician</h3>
+                <p style="color: var(--cyan-glow); font-size: 0.9rem; margin-bottom: 5px;">Hardware Engineering</p>
+                <p>Delivered expert-level software and hardware repair services. Executed complex device flashing, OS resets, and deep hardware troubleshooting for issues escalated by other technicians.</p>
+            </div>
+        </section>
+
+        <section class="glass-panel fade-in-up">
+            <h2>Education</h2>
+            <div style="margin-bottom: 20px;">
+                <h3>Olabisi Onabanjo University</h3>
+                <p>B.Eng in Computer Engineering (2019 – 2023)</p>
+            </div>
+            <div>
+                <h3>Abraham Adesanya Polytechnic</h3>
+                <p>OND in Computer Engineering | Upper Credit (2015 – 2018)</p>
+                <p style="font-size: 0.95rem; margin-top: 5px;">Key Project: Architected and deployed a campus-wide telecom network utilizing RJ45 cables and satellite boxes.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in-up').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
