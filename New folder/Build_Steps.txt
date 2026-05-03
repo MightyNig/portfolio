@@ -1,0 +1,77 @@
+Here is your Step-by-Step Execution Architecture. You can use this directly as your master checklist. When you are ready to build in Cursor, you will feed these steps to your AI (Claude) one at a time.
+
+I have also included the specific Architecture Skills the AI will be using behind the scenes for each step, so you know exactly how the engine works.
+
+Stage 1: The "Swipe-to-Unlock" Splash Screen
+Your Goal: Create the very first page the user sees. It must feature the Pal-Luck (Padlock) logo, the deep iPhone glow aesthetic, and require a physical "swipe up" gesture to unlock the app, mimicking the native iOS lock screen.
+
+The AI Skill Architecture Used: * React Native Reanimated: Used to capture the physics of your finger swiping up and animating the screen sliding away smoothly.
+
+Expo Blur & Shadows: Used to generate the luminous, breathing blue glow behind the logo.
+
+Prompt to give Claude: "Step 1: Build the LandingScreen.js. Use a dark/deep blue gradient background. Put a glowing Pal-Luck logo in the center. At the bottom, add a 'Swipe up to unlock' text with a subtle bounce animation. Use React Native Reanimated so the user can physically drag the screen up to reveal the next page."
+
+Stage 2: Phone Number Input
+Your Goal: The screen revealed immediately after the swipe. A clean, minimal page to input the phone number to start the journey.
+
+The AI Skill Architecture Used:
+
+KeyboardAvoidingView: Ensures that when the phone's keyboard pops up, it doesn't cover the "Continue" button.
+
+React Native TextInput: Styled to have a subtle blue glow when the user taps it.
+
+Prompt to give Claude: "Step 2: Build the PhoneEntryScreen.js. Keep the background consistent with the previous screen. Add a clean, glowing input field for a phone number and country code. Place a large, elegant 'Continue' button at the bottom that lights up when a number is entered."
+
+Stage 3: Authentication Code (OTP) Page
+Your Goal: A page with individual boxes for the user to type the verification code.
+
+The AI Skill Architecture Used:
+
+useRef (State Management): The code that automatically jumps the cursor from the first box to the second box as you type the numbers.
+
+Prompt to give Claude: "Step 3: Build the VerificationScreen.js. Create 4 to 6 large, clean, frosted-glass input boxes for an OTP code. When a box is active, give it a soft blue outer glow. Auto-advance to the next box when a number is typed."
+
+Stage 4: Profile Setup
+Your Goal: The page where the user uploads their picture, name, and age before entering the main app.
+
+The AI Skill Architecture Used:
+
+expo-image-picker: The tool that connects the app to the phone's camera roll so the user can select a photo.
+
+Prompt to give Claude: "Step 4: Build the ProfileSetupScreen.js. Add a large circular area for a profile picture with a '+' icon. When tapped, it should allow photo selection. Below it, add clean input lines for Name and Age. Add a 'Complete Setup' button."
+
+Stage 5: The Chat Page
+Your Goal: The main messenger interface (WhatsApp style, but with your premium aesthetic).
+
+The AI Skill Architecture Used:
+
+FlatList: A highly efficient list renderer that ensures scrolling through hundreds of messages never lags the phone.
+
+Prompt to give Claude: "Step 5: Build the ChatListScreen.js and ChatRoomScreen.js. The list should show profile pictures and message previews. Inside the chat room, use clean bubbles. The user's own messages should be highlighted in our signature Pal-Luck blue."
+
+Stage 6: The Community Page
+Your Goal: The Instagram-style visual feed with communities, stores, and groups.
+
+The AI Skill Architecture Used:
+
+Bottom Sheet Modals: So when you click on a community post, it smoothly slides up over the screen without loading a completely new page.
+
+Prompt to give Claude: "Step 6: Build the CommunityScreen.js. Add a scrollable row of filter pills at the top (Groups, Stores, etc.). Below it, create a visual feed of posts. Ensure that tapping a post opens it as a smooth, frosted-glass bottom sheet."
+
+Stage 7: The Dialogue / Discovery Page (Pal-Lock Core)
+Your Goal: The Pinterest/Google-style discovery engine where users search for items or services and see the trust badges.
+
+The AI Skill Architecture Used:
+
+Masonry Layout: A specialized grid system that allows pictures of different sizes to lock together beautifully like puzzle pieces (just like Pinterest).
+
+Prompt to give Claude: "Step 7: Build the DiscoveryScreen.js. Center a smart search bar at the top with a camera icon. Below it, build a Masonry Grid displaying high-quality cards for items/services. Each card must have a visible 'Trust Badge'."
+
+Stage 8: The Settings Page
+Your Goal: The highly organized, text-based control center.
+
+The AI Skill Architecture Used:
+
+SectionList: An architecture that perfectly groups lists with headers (e.g., separating "Privacy" from "Account").
+
+Prompt to give Claude: "Step 8: Build the SettingsScreen.js. Make this feel like native iOS settings. Use a clean list grouped by categories: Profile, Search Preferences, Privacy, and Account. Use chevron arrows (>) on the right side of each row."

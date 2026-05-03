@@ -1,0 +1,361 @@
+Alright — now we’re moving into the **real engineering layer** 🔥
+Here is a **clean, scalable, production-ready database schema design** for **Pal-Luck**.
+
+I’ll structure this like a **senior backend engineer would** so you (or any AI like Claude) can actually build it.
+
+---
+
+# **Pal-Luck Database Schema (v1 – Scalable Design)**
+
+## **Database Type Recommendation**
+
+* **Primary DB:** PostgreSQL (relational, strong consistency)
+* **Search Layer (later):** Elasticsearch / Meilisearch
+* **Cache:** Redis
+* **Real-time:** WebSockets / Firebase / Supabase Realtime
+
+---
+
+# **1. USERS (Core Identity Table)**
+
+```sql
+users (
+  id UUID PRIMARY KEY,
+  phone_number VARCHAR UNIQUE NOT NULL,
+  username VARCHAR,
+  profile_image TEXT,
+  bio TEXT,
+
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+)
+```
+
+---
+
+# **2. CONTACTS (Friend Graph Layer)**
+
+Stores who knows who (trust layer 1)
+
+```sql
+contacts (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  contact_user_id UUID REFERENCES users(id),
+
+  nickname VARCHAR,
+  is_blocked BOOLEAN DEFAULT FALSE,
+
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **3. COMMUNITIES**
+
+```sql
+communities (
+  id UUID PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  description TEXT,
+  image TEXT,
+
+  type VARCHAR, -- location / profession / interest
+  visibility VARCHAR, -- public / private
+
+  created_by UUID REFERENCES users(id),
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **4. COMMUNITY MEMBERS**
+
+```sql
+community_members (
+  id UUID PRIMARY KEY,
+  community_id UUID REFERENCES communities(id),
+  user_id UUID REFERENCES users(id),
+
+  role VARCHAR DEFAULT 'member', -- admin, member
+  joined_at TIMESTAMP
+)
+```
+
+---
+
+# **5. CHAT SYSTEM**
+
+### **Chats (1-1 or group)**
+
+```sql
+chats (
+  id UUID PRIMARY KEY,
+  is_group BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP
+)
+```
+
+### **Chat Members**
+
+```sql
+chat_members (
+  id UUID PRIMARY KEY,
+  chat_id UUID REFERENCES chats(id),
+  user_id UUID REFERENCES users(id)
+)
+```
+
+### **Messages**
+
+```sql
+messages (
+  id UUID PRIMARY KEY,
+  chat_id UUID REFERENCES chats(id),
+  sender_id UUID REFERENCES users(id),
+
+  content TEXT,
+  media_url TEXT,
+  message_type VARCHAR, -- text, image, voice
+
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **6. DOCK (User Content System)**
+
+This is VERY IMPORTANT — powers Pal-Lock
+
+```sql
+dock_items (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+
+  title VARCHAR,
+  description TEXT,
+
+  category VARCHAR, -- product, service, post
+  type VARCHAR, -- item, service, store
+
+  image_url TEXT,
+  price DECIMAL,
+
+  visibility VARCHAR, -- friends / community / public
+
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **7. SERVICES (Structured Service Listings)**
+
+```sql
+services (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+
+  service_name VARCHAR,
+  description TEXT,
+  category VARCHAR, -- mechanic, plumber, etc.
+
+  availability BOOLEAN DEFAULT TRUE,
+  location TEXT,
+
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **8. STORES (Mini Shops Inside Dock)**
+
+```sql
+stores (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+
+  store_name VARCHAR,
+  description TEXT,
+  location TEXT,
+
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **9. PAL-LOCK REQUESTS (Core Feature)**
+
+This tracks user needs
+
+```sql
+pal_lock_requests (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+
+  query TEXT,
+  image_url TEXT,
+
+  location TEXT,
+  status VARCHAR, -- open, matched, closed
+
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **10. PAL-LOCK MATCHES**
+
+Stores results from search system
+
+```sql
+pal_lock_matches (
+  id UUID PRIMARY KEY,
+  request_id UUID REFERENCES pal_lock_requests(id),
+
+  matched_user_id UUID REFERENCES users(id),
+  match_source VARCHAR, -- friend, community, public
+
+  relevance_score FLOAT,
+
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **11. STATUS / REELS (Content Feed)**
+
+```sql
+posts (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+
+  media_url TEXT,
+  caption TEXT,
+
+  type VARCHAR, -- image, video
+
+  visibility VARCHAR,
+
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **12. ENGAGEMENT (Likes & Comments)**
+
+```sql
+likes (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  post_id UUID REFERENCES posts(id)
+)
+```
+
+```sql
+comments (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  post_id UUID REFERENCES posts(id),
+
+  content TEXT,
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **13. SEARCH INDEX TABLE (Optional Early Version)**
+
+```sql
+search_index (
+  id UUID PRIMARY KEY,
+
+  user_id UUID,
+  dock_item_id UUID,
+  service_id UUID,
+
+  text_vector TEXT, -- for search
+  tags TEXT[],
+
+  created_at TIMESTAMP
+)
+```
+
+---
+
+# **KEY RELATIONSHIPS (IMPORTANT)**
+
+* Users ↔ Contacts → Friend Graph
+* Users ↔ Communities → Trust Expansion
+* Users ↔ Dock → Searchable Content
+* Dock/Services → Pal-Lock Engine
+* Pal-Lock → Matches → Results
+
+---
+
+# **HOW PAL-LOCK USES THIS SCHEMA**
+
+### Example Flow:
+
+User searches: **“mechanic”**
+
+1. Query hits:
+
+   * `services`
+   * `dock_items`
+   * `search_index`
+
+2. Filter:
+
+   * First → contacts
+   * Then → communities
+   * Then → public
+
+3. Rank:
+
+   * relevance_score
+   * distance (later)
+   * trust level
+
+---
+
+# **SCALABILITY NOTES (VERY IMPORTANT)**
+
+* Add **indexes** on:
+
+  * `user_id`
+  * `category`
+  * `created_at`
+
+* Use **Elasticsearch later** for:
+
+  * Image search
+  * Fast queries
+  * Ranking
+
+* Use **Redis for:**
+
+  * Chat messages caching
+  * Active users
+  * Real-time matches
+
+---
+
+# **NEXT STEP (HIGHLY RECOMMENDED)**
+
+Now that you have the schema, the next best moves are:
+
+1. **API Design (Endpoints)**
+2. **System Architecture (Backend + Frontend)**
+3. **Pal-Lock Matching Algorithm (VERY IMPORTANT)**
+4. **UI Screens Design**
+
