@@ -23,10 +23,9 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; overflow: hidden; } /* Prevents overall page scroll on desktop */
+  html, body { height: 100%; width: 100%; background: var(--abyss); overflow: hidden; }
 
   body {
-    background: var(--abyss);
     color: var(--text-ghost);
     font-family: 'Cormorant Garamond', Georgia, serif;
     line-height: 1.5;
@@ -41,37 +40,23 @@
     flex-direction: column; 
   }
 
-  header { margin-bottom: 15px; border-left: 3px solid var(--core-gold); padding-left: 20px; flex-shrink: 0; }
+  header { margin-bottom: 12px; border-left: 3px solid var(--core-gold); padding-left: 20px; flex-shrink: 0; }
   .manifesto-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--core-gold); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 4px; display: block; }
-  h1 { font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 300; color: #ffffff; letter-spacing: -0.01em; line-height: 1.1; }
+  h1 { font-size: clamp(1.2rem, 3vw, 2.1rem); font-weight: 300; color: #ffffff; letter-spacing: -0.01em; line-height: 1.1; }
   h1 span { color: var(--glow-cyan); font-style: italic; }
 
-  /* SYSTEM HUD STYLING */
   .system-hud {
-    font-family: 'JetBrains Mono', monospace; 
-    font-size: 0.65rem; 
-    color: var(--silver); 
-    margin-bottom: 15px; 
-    letter-spacing: 1.5px; 
-    text-transform: uppercase; 
-    border-bottom: 1px solid rgba(255,255,255,0.05); 
-    padding-bottom: 10px; 
-    display: flex; 
-    gap: 20px; 
-    opacity: 0.8;
-    flex-shrink: 0;
-    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--silver); margin-bottom: 12px; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; display: flex; gap: 15px; opacity: 0.8; flex-shrink: 0;
   }
 
-  /* FIXED: GRID AUTO-FIT LOGIC */
   .lab-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 15px;
-    flex-grow: 1; /* Fills remaining height */
-    min-height: 0; /* Important for flex child sizing */
-    margin-bottom: 15px;
+    flex-grow: 1;
+    min-height: 0;
+    margin-bottom: 10px;
   }
 
   .lab-cell {
@@ -82,56 +67,46 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    height: 100%; /* Fills the grid slot */
+    height: 100%;
   }
 
   .cell-header {
-    background: rgba(2, 12, 27, 0.8);
-    padding: 8px 15px;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.1);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
+    background: rgba(2, 12, 27, 0.8); padding: 8px 15px; border-bottom: 1px solid rgba(0, 240, 255, 0.1); font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; z-index: 10;
   }
 
   .ide-terminal {
-    flex: 1; background: var(--terminal-bg); padding: 15px;
-    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
-    color: var(--node-green); overflow-y: auto; line-height: 1.4;
+    flex: 1; background: var(--terminal-bg); padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--node-green); overflow-y: auto; line-height: 1.4;
   }
+  .log-line { margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.01); }
+  .log-date { color: var(--text-muted); font-size: 0.65rem; margin-right: 8px; }
+  .log-success { color: var(--lock-green); }
+  .log-warn { color: var(--hostile-red); }
 
-  .controls-cell {
-    padding: 15px 20px; display: flex; flex-direction: column; gap: 10px; justify-content: flex-start; overflow-y: auto;
-  }
-
-  /* MOBILE RESPONSIVENESS */
-  @media (max-width: 900px) {
-    html, body { overflow: auto; } /* Allow scrolling on mobile */
-    .wrap { height: auto; }
-    .lab-grid { 
-      grid-template-columns: 1fr; 
-      grid-template-rows: none; 
-      display: block; 
-    }
-    .lab-cell { height: 350px; margin-bottom: 15px; }
-    .system-hud { gap: 10px; font-size: 0.55rem; }
-  }
+  .controls-cell { padding: 12px 20px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+  .control-group { display: flex; flex-direction: column; gap: 2px; }
+  .control-group label { font-family: 'JetBrains Mono'; font-size: 0.6rem; color: var(--glow-cyan); text-transform: uppercase; }
+  .slider-input { width: 100%; height: 3px; background: #112240; outline: none; -webkit-appearance: none; border-radius: 2px; }
+  .slider-input::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; background: var(--glow-cyan); border-radius: 50%; cursor: pointer; }
 
   .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .btn {
-    background: transparent; border: 1px solid var(--lock-green); color: var(--lock-green);
-    padding: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
-    text-transform: uppercase; cursor: pointer; border-radius: 4px;
+    background: transparent; border: 1px solid var(--lock-green); color: var(--lock-green); padding: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: 0.2s;
   }
+  .btn:hover { background: rgba(0, 255, 102, 0.05); }
   .btn-attack { border-color: var(--hostile-red); color: var(--hostile-red); }
-  .slider-input { width: 100%; height: 3px; background: #112240; outline: none; }
-  
+  .btn-attack:hover { background: rgba(255, 0, 85, 0.05); }
+  .btn-toggle.active { background: rgba(0, 255, 102, 0.1); font-weight: bold; }
+  .btn-toggle.active-attack { background: rgba(255, 0, 85, 0.1); font-weight: bold; }
+
   canvas { display: block; width: 100%; flex-grow: 1; cursor: crosshair; background: #000; }
-  footer { flex-shrink: 0; padding-bottom: 10px; text-align: center; }
+  footer { flex-shrink: 0; padding: 5px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+
+  @media (max-width: 900px) {
+    html, body { overflow: auto; }
+    .wrap { height: auto; }
+    .lab-grid { display: flex; flex-direction: column; height: auto; }
+    .lab-cell { height: 380px; margin-bottom: 15px; }
+  }
 </style>
 </head>
 <body>
@@ -159,14 +134,12 @@
     <div class="lab-cell">
       <div class="cell-header">
         <span>02 // KLATA VERIFICATION RUNTIME</span>
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <button class="freeze-btn" id="freezeToggle">SCRL_LCK: OFF</button>
-          <span style="color:var(--node-green)">ONLINE ●</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <button class="btn" style="padding: 2px 8px; font-size: 8px;" id="freezeToggle">SCRL_LOCK: OFF</button>
+          <span style="color:var(--node-green); font-size: 9px;">ONLINE ●</span>
         </div>
       </div>
-      <div class="ide-terminal" id="terminalOutput">
-        <div class="log-line">> [SYSTEM] INITIALIZING KLATA SECURE PROTOCOLS...</div>
-      </div>
+      <div class="ide-terminal" id="terminalOutput"></div>
     </div>
 
     <div class="lab-cell">
@@ -177,45 +150,40 @@
     <div class="lab-cell controls-cell">
       <div class="btn-row">
         <div class="control-group">
-          <label style="font-family:'JetBrains Mono'; font-size: 0.6rem; color:var(--glow-cyan);" id="interferenceLabel">Acoustic Noise: 25 dB</label>
+          <label id="interferenceLabel">Acoustic Noise: 25 dB</label>
           <input type="range" min="5" max="95" value="25" class="slider-input" id="noiseSlider">
         </div>
         <div class="control-group">
-          <label style="font-family:'JetBrains Mono'; font-size: 0.6rem; color:var(--glow-cyan);" id="intervalLabel">Sequence Time: 1000ms</label>
+          <label id="intervalLabel">Sequence: 1000ms</label>
           <input type="range" min="100" max="4000" step="100" value="1000" class="slider-input" id="intervalSlider">
         </div>
       </div>
-
       <div class="btn-row">
         <div class="control-group">
-          <label style="font-family:'JetBrains Mono'; font-size: 0.6rem; color:var(--glow-cyan);" id="burstSizeLabel">Payload: 5</label>
+          <label id="burstSizeLabel">Batch Payload: 5</label>
           <input type="range" min="1" max="25" value="5" class="slider-input" id="burstSizeSlider">
         </div>
         <div class="control-group">
-          <label style="font-family:'JetBrains Mono'; font-size: 0.6rem; color:var(--glow-cyan);" id="threatQuantityLabel">Threat: 5</label>
+          <label id="threatLabel">Threat Swarm: 5</label>
           <input type="range" min="1" max="25" value="5" class="slider-input" id="threatSlider">
         </div>
       </div>
-      
       <div class="btn-row">
         <button class="btn" id="pingBtn">Manual Burst</button>
         <button class="btn btn-attack" id="attackBtn">Manual Spoof</button>
       </div>
-
       <div class="btn-row">
-        <button class="btn" id="autoTelemetryBtn">Auto Telemetry: OFF</button>
-        <button class="btn" id="autoHostileBtn">Auto Hostile: OFF</button>
+        <button class="btn btn-toggle" id="autoTelemetryBtn">Auto Telemetry: OFF</button>
+        <button class="btn btn-toggle" id="autoHostileBtn">Auto Hostile: OFF</button>
       </div>
-
-      <div style="font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--text-muted); border-top:1px solid rgba(255,255,255,0.05); padding-top:5px;">
-        <span style="color:#ffffff; font-weight:bold; display:block;">KLATA SIMULTANEOUS TESTING:</span>
-        All sliders operate independently.
+      <div style="font-family:'JetBrains Mono'; font-size:0.6rem; color:var(--text-muted); border-top:1px solid rgba(255,255,255,0.05); padding-top:5px;">
+        Monitor Box 02 for collision reports.
       </div>
     </div>
   </div>
 
   <footer>
-    <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text-muted);">OLAMIDE ODUWOLE // SYSTEMS ARCHITECT // KLATA INC. // 2026</div>
+    <div style="font-family:'JetBrains Mono'; font-size:0.65rem; color:var(--text-muted);">OLAMIDE ODUWOLE // SYSTEMS ARCHITECT // KLATA INC. // 2026</div>
   </footer>
 </div>
 
@@ -224,15 +192,14 @@
   const freezeToggle = document.getElementById('freezeToggle');
   let isFrozen = false;
 
-  freezeToggle.addEventListener('click', () => {
+  freezeToggle.onclick = () => {
     isFrozen = !isFrozen;
-    freezeToggle.innerText = isFrozen ? "SCRL_LCK: ON" : "SCRL_LCK: OFF";
-    freezeToggle.classList.toggle('active', isFrozen);
-  });
+    freezeToggle.innerText = isFrozen ? "SCRL_LOCK: ON" : "SCRL_LOCK: OFF";
+    freezeToggle.style.borderColor = isFrozen ? 'var(--hostile-red)' : 'var(--lock-green)';
+  };
 
   function logTerminal(msg, className = "") {
-    const now = new Date();
-    const timestamp = now.toTimeString().split(' ')[0] + '.' + now.getMilliseconds();
+    const timestamp = new Date().toTimeString().split(' ')[0];
     const line = document.createElement('div');
     line.className = `log-line ${className}`;
     line.innerHTML = `<span class="log-date">[${timestamp}]</span> ${msg}`;
@@ -241,9 +208,8 @@
   }
 
   // --- ENGINE 01: POINT CORE ---
-  const canvas1 = document.getElementById('canvas1');
-  const ctx1 = canvas1.getContext('2d');
-  let particles1 = [], core1 = { x: 0, y: 0, radius: 35 }, animTime = 0;
+  const canvas1 = document.getElementById('canvas1'), ctx1 = canvas1.getContext('2d');
+  let particles1 = [], core1 = { x: 0, y: 0, radius: 35 }, pulseRadius = 0, pulseActive = false, animTime = 0;
 
   function resize() {
     canvas1.width = canvas1.offsetWidth; canvas1.height = canvas1.offsetHeight;
@@ -256,23 +222,46 @@
   class Particle1 {
     constructor(x, y, manual = false) {
       this.x = x || Math.random() * canvas1.width; this.y = y || Math.random() * canvas1.height;
-      this.vx = (Math.random() - 0.5) * 1.5; this.vy = (Math.random() - 0.5) * 1.5;
+      this.vx = (Math.random() - 0.5) * 2; this.vy = (Math.random() - 0.5) * 2;
       this.radius = Math.random() * 2 + 1; this.locked = false; this.manual = manual;
     }
-    update() { if (!this.locked) { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > canvas1.width) this.vx *= -1; if (this.y < 0 || this.y > canvas1.height) this.vy *= -1; }}
-    draw() { ctx1.beginPath(); ctx1.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx1.fillStyle = this.locked ? '#00ff66' : (this.manual ? '#00f0ff' : '#5a6982'); ctx1.fill(); }
+    update() {
+      if (!this.locked) {
+        this.x += this.vx; this.y += this.vy;
+        if (this.x < 0 || this.x > canvas1.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas1.height) this.vy *= -1;
+      }
+    }
+    draw() {
+      ctx1.beginPath(); ctx1.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx1.fillStyle = this.locked ? '#00ff66' : (this.manual ? '#00f0ff' : '#5a6982');
+      ctx1.fill();
+    }
   }
+
   for (let i = 0; i < 35; i++) particles1.push(new Particle1());
 
+  canvas1.addEventListener('click', (e) => {
+    const rect = canvas1.getBoundingClientRect();
+    for(let k=0; k<5; k++) particles1.push(new Particle1(e.clientX - rect.left, e.clientY - rect.top, true));
+  });
+
   function loop1() {
-    ctx1.fillStyle = '#000'; ctx1.fillRect(0,0,canvas1.width,canvas1.height); animTime += 0.04;
+    ctx1.fillStyle = '#000'; ctx1.fillRect(0,0,canvas1.width,canvas1.height); animTime += 0.05;
     ctx1.beginPath(); ctx1.arc(core1.x, core1.y, core1.radius + Math.sin(animTime)*3, 0, Math.PI * 2);
     ctx1.strokeStyle = '#ffb700'; ctx1.lineWidth = 2; ctx1.stroke();
+
+    if(pulseActive) {
+      pulseRadius += 4; ctx1.beginPath(); ctx1.arc(core1.x, core1.y, pulseRadius, 0, Math.PI * 2);
+      ctx1.strokeStyle = `rgba(0, 240, 255, ${Math.max(0, 1 - pulseRadius/150)})`; ctx1.stroke();
+      if(pulseRadius > 150) pulseActive = false;
+    }
+
     particles1.forEach(p => {
       p.update(); p.draw();
       if (Math.hypot(p.x - core1.x, p.y - core1.y) < core1.radius && !p.locked) {
-        p.locked = true; 
-        logTerminal(`[KLATA CORE] SEAL SECURED`, "log-success");
+        p.locked = true; pulseActive = true; pulseRadius = core1.radius;
+        logTerminal(`[KLATA CORE] ADAPTER SEAL SECURED`, "log-success");
         setTimeout(() => { p.locked = false; p.x = Math.random()*canvas1.width; }, 2000);
       }
     });
@@ -280,26 +269,16 @@
   }
   loop1();
 
-  // --- ENGINE 03: ABYSSAL MARINE ---
+  // --- ENGINE 03: ABYSSAL ---
   const canvas2 = document.getElementById('canvas2'), ctx2 = canvas2.getContext('2d');
-  const noiseSlider = document.getElementById('noiseSlider'), noiseLabel = document.getElementById('interferenceLabel');
-  const burstSizeSlider = document.getElementById('burstSizeSlider'), burstSizeLabel = document.getElementById('burstSizeLabel');
-  const threatSlider = document.getElementById('threatSlider'), threatLabel = document.getElementById('threatQuantityLabel');
-  const intervalSlider = document.getElementById('intervalSlider'), intervalLabel = document.getElementById('intervalLabel');
-  let noiseDb = 25, burstSize = 5, threatQuantity = 5, sequenceInterval = 1000, packets = [];
-  let telemetryDaemon = null, hostileDaemon = null;
+  let noiseDb = 25, burstSize = 5, threatQty = 5, seqInt = 1000, packets = [], tDaemon = null, hDaemon = null;
 
-  noiseSlider.addEventListener('input', (e) => { noiseDb = parseInt(e.target.value); noiseLabel.innerText = `Noise: ${noiseDb} dB`; });
-  burstSizeSlider.addEventListener('input', (e) => { burstSize = parseInt(e.target.value); burstSizeLabel.innerText = `Payload: ${burstSize}`; });
-  threatSlider.addEventListener('input', (e) => { threatQuantity = parseInt(e.target.value); threatLabel.innerText = `Threat: ${threatQuantity}`; });
-  intervalSlider.addEventListener('input', (e) => { sequenceInterval = parseInt(e.target.value); intervalLabel.innerText = `Cycle: ${sequenceInterval}ms`; });
-
-  function spawnPacketCluster(isAttack) {
-    const count = isAttack ? threatQuantity : burstSize;
+  function spawn(isAtk) {
+    const count = isAtk ? threatQty : burstSize;
     for (let k = 0; k < count; k++) {
-      packets.push({ x: canvas2.width / 2, y: canvas2.height - 50, speed: 2 + Math.random(), offsetX: (Math.random() - 0.5) * 60, isAttack, hash: Math.random().toString(36).substring(7).toUpperCase() });
+      packets.push({ x: canvas2.width / 2, y: canvas2.height - 40, speed: 2 + Math.random(), offsetX: (Math.random() - 0.5) * 60, isAtk, hash: Math.random().toString(36).substring(7).toUpperCase() });
     }
-    logTerminal(isAttack ? `[ALERT] Threat Burst: ${count}` : `[TX] Data Burst: ${count}`, isAttack ? "log-warn" : "log-info");
+    logTerminal(isAtk ? `[CRITICAL] THREAT DETECTED: ${count}` : `[TX] BATCH EMITTED: ${count}`, isAtk ? "log-warn" : "");
   }
 
   function loop2() {
@@ -307,9 +286,9 @@
     for (let i = packets.length - 1; i >= 0; i--) {
       const p = packets[i]; p.y -= p.speed;
       ctx2.beginPath(); ctx2.arc(canvas2.width/2 + p.offsetX, p.y, 4, 0, Math.PI*2);
-      ctx2.fillStyle = p.isAttack ? '#ff0055' : '#00f0ff'; ctx2.fill();
+      ctx2.fillStyle = p.isAtk ? '#ff0055' : '#00f0ff'; ctx2.fill();
       if (p.y <= 40) {
-        logTerminal(p.isAttack ? `✕ NEUTRALIZED: ${p.hash}` : `✔ VERIFIED: ${p.hash}`, p.isAttack ? "log-warn" : "log-success");
+        logTerminal(p.isAtk ? `✕ NEUTRALIZED: ${p.hash}` : `✔ VERIFIED: ${p.hash}`, p.isAtk ? "log-warn" : "log-success");
         packets.splice(i, 1);
       }
     }
@@ -317,15 +296,20 @@
   }
   loop2();
 
-  document.getElementById('pingBtn').onclick = () => spawnPacketCluster(false);
-  document.getElementById('attackBtn').onclick = () => spawnPacketCluster(true);
+  document.getElementById('noiseSlider').oninput = (e) => { noiseDb = e.target.value; document.getElementById('interferenceLabel').innerText = `Noise: ${noiseDb} dB`; };
+  document.getElementById('intervalSlider').oninput = (e) => { seqInt = e.target.value; document.getElementById('intervalLabel').innerText = `Seq: ${seqInt}ms`; };
+  document.getElementById('burstSizeSlider').oninput = (e) => { burstSize = e.target.value; document.getElementById('burstSizeLabel').innerText = `Payload: ${burstSize}`; };
+  document.getElementById('threatSlider').oninput = (e) => { threatQty = e.target.value; document.getElementById('threatLabel').innerText = `Threat: ${threatQty}`; };
+
+  document.getElementById('pingBtn').onclick = () => spawn(false);
+  document.getElementById('attackBtn').onclick = () => spawn(true);
   document.getElementById('autoTelemetryBtn').onclick = function() {
-    if(telemetryDaemon) { clearInterval(telemetryDaemon); telemetryDaemon=null; this.innerText="Auto Telemetry: OFF"; }
-    else { telemetryDaemon=setInterval(()=>spawnPacketCluster(false), sequenceInterval); this.innerText="Auto Telemetry: ON"; }
+    if(tDaemon) { clearInterval(tDaemon); tDaemon=null; this.innerText="Auto Telemetry: OFF"; this.classList.remove('active'); }
+    else { tDaemon=setInterval(()=>spawn(false), seqInt); this.innerText="Auto Telemetry: ON"; this.classList.add('active'); }
   };
   document.getElementById('autoHostileBtn').onclick = function() {
-    if(hostileDaemon) { clearInterval(hostileDaemon); hostileDaemon=null; this.innerText="Auto Hostile: OFF"; }
-    else { hostileDaemon=setInterval(()=>spawnPacketCluster(true), sequenceInterval); this.innerText="Auto Hostile: ON"; }
+    if(hDaemon) { clearInterval(hDaemon); hDaemon=null; this.innerText="Auto Hostile: OFF"; this.classList.remove('active-attack'); }
+    else { hDaemon=setInterval(()=>spawn(true), seqInt); this.innerText="Auto Hostile: ON"; this.classList.add('active-attack'); }
   };
 </script>
 </body>
